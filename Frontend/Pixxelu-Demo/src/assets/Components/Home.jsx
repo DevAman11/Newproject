@@ -10,9 +10,7 @@ function Home() {
         .then(json=>{
             console.log(json)
             setList(json)
-        
         })
-         
     }, [])
   return (
     <>
