@@ -16,26 +16,20 @@ function Navbar() {
 
     return (
         <>
-        <div className=" navContain h=[100] bg-purple-600">
+        <div className="navContain ">
 
          <div className="navMain  ">
-           <ul>
-
+           <ul className="">
          { 
-            
             navList.map((newNav, Index)=>{
-                return <li className="" key={Index}><Link to={newNav.Link}> {newNav.Name}</Link></li>
+                return <li className="flex align-middle justify-around" key={Index}><Link to={newNav.Link}> {newNav.Name}</Link></li>
             })
          }
-    
            </ul>
          </div>
-    
         </div>
-    
         </>
     )
-
 }
 
 

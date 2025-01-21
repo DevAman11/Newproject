@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 function Products() {
-   const {id} = useParams()
+  //  const {id} = useParams()
       
-   const [productList, setproductList] = useState([])
+  //  const [productList, setproductList] = useState([])
 
-   useEffect(() => {
-    fetch(`https://fakestoreapi.com/products/category/${id}`)
-    .then(res=>res.json())
-    .then(json=>{console.log(json)
-      setproductList(json)})
-   },[])
+  //  useEffect(() => {
+  //   fetch(`https://fakestoreapi.com/products/category/${id}`)
+  //   .then(res=>res.json())
+  //   .then(json=>{console.log(json)
+  //     setproductList(json)})
+  //  },[])
   return (
   <>
    {/* {
