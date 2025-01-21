@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 function Navbar() {
 
     const [navList, setnavList] = useState([
-        {"Name":"Home","Link":"/"},
-        {"Name":"Blog","Link":"/Blog"},
-        {"Name":"Categories","Link":"/Categories"},
-        {"Name":"Register","Link":"/Register"},
-        {"Name":"Login","Link":"/Login"},
-        {"Name":"Userdata","Link":"/Userdata"},
+        {"Name":"HOME","Link":"/"},
+        {"Name":"BLOG","Link":"/Blog"},
+        {"Name":"CATEGORIES","Link":"/Categories"},
+        {"Name":"REGISTER","Link":"/Register"},
+        {"Name":"LOGIN","Link":"/Login"},
+        {"Name":"USERDATA","Link":"/Userdata"},
     ])
 
 
