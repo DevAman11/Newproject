@@ -3,6 +3,30 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Register() {
+
+  const [formData, setformData] = useState({
+    Firstname : "",
+    Lastname :"",
+    Username : "",
+    Email : "",
+    Password : ""
+  })
+
+  const handleData = (e) => {
+    setformData({
+      ...formData,
+      [e.target.name]:e.target.value  
+    })
+  }
+
+  
+
+
+
+
+
+
+
   return (
     <>
       <script

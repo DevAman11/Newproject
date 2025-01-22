@@ -57,7 +57,7 @@ app.delete('/Delete/:id',(req,res) => {
         const deleteUser = "DELETE from Pixxel Where Id = ? ";
 
         dataBase.query(deleteUser,[id],(err,result) =>{
-            res.send(result,"Delete User Successfully")
+            res.send("Delete User Successfully")
         })
     } catch (error) {
         console.log(error,"Id Doesn't Match");
