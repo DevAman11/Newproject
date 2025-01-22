@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 function Register() {
 
   const [formData, setformData] = useState({
-    Firstname : "",
-    Lastname :"",
-    Username : "",
-    Email : "",
-    Password : ""
+    Firstname : '',
+    Lastname :'',
+    Username : '',
+    Email : '',
+    Password : ''
   })
 
   const handleData = (e) => {
@@ -19,13 +19,36 @@ function Register() {
     })
   }
 
-  
+  const submitData = async (e) => {
+      e.preventDefault()
+      try {
+        const response = await fetch("http://localhost:5000/Save",{
+          method : "POST",
+          headers:{
+            'Content-Type':'application/json',
+          },
+          body : JSON.stringify(formData),
+        })
+        if(!response.ok){
+          const error = await response.json()
+          alert(`Error:${error.message}`)
+        }else{
+          const registerData = await response.json()
+          setformData({
+            Firstname : '',
+            Lastname :'',
+            Username : '',
+            Email : '',
+            Password : ''
+          })
 
-
-
-
-
-
+          alert("Register Successfully",registerData)
+        }
+      } catch (error) {
+        console.log(error);
+      alert("Error while Sign up")
+      }
+  }
 
   return (
     <>
@@ -41,7 +64,7 @@ function Register() {
       </style>
       <div class="min-w-screen min-h-screen bg-gray-900 flex items-center justify-center px-5 py-5">
         <div class="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden">
-          <form>
+          <form onSubmit={submitData} method="post">
             <div class="md:flex w-full">
               <div class="hidden md:block w-1/2 bg-indigo-500 py-10 px-10">
                 <svg
@@ -265,8 +288,10 @@ function Register() {
                         </div>
                         <input
                           type="text"
+                          onChange={handleData}
+                          value={formData.Firstname}
                           class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                          name="Fname"
+                          name="Firstname"
                           placeholder="John"
                         />
                       </div>
@@ -281,8 +306,10 @@ function Register() {
                         </div>
                         <input
                           type="text"
+                          onChange={handleData}
+                          value={formData.Lastname}
                           class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
-                          name="Lname"
+                          name="Lastname"
                           placeholder="Smith"
                         />
                       </div>
@@ -299,6 +326,8 @@ function Register() {
                         </div>
                         <input
                           type="text"
+                          onChange={handleData}
+                          value={formData.Username}
                           class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                           name="Username"
                           placeholder="user@1234"
@@ -318,6 +347,8 @@ function Register() {
                         </div>
                         <input
                           type="email"
+                          onChange={handleData}
+                          value={formData.Email}
                           class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                           name="Email"
                           placeholder="johnsmith@example.com"
@@ -336,6 +367,8 @@ function Register() {
                         </div>
                         <input
                           type="password"
+                          onChange={handleData}
+                          value={formData.Password}
                           class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                           name="Password"
                           placeholder="************"
@@ -345,8 +378,8 @@ function Register() {
                   </div>
                   <div class="flex -mx-3">
                     <div class="w-full px-3 mb-5">
-                      <button class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">
-                        REGISTER NOW
+                      <button   type="submit" class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">
+                       <Link to="/Userdata">REGISTER NOW</Link> 
                       </button>
                     </div>
                   </div>
