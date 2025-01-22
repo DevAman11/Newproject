@@ -1,7 +1,9 @@
 const express = require('express')
 const app = express()
+const bcrypt = require('bcrypt')
 const Mysql = require('mysql2')
 const jwt = require('jsonwebtoken')
+const joi = require('joi')
 app.use(express.json())
 
 const dataBase = Mysql.createConnection({
@@ -16,18 +18,49 @@ dataBase.connect((err)=>{
 })
 
 
+// app.post('/Login', async (req,res) => {
+//     const {Email,Password} = req.body
+//     const token = jwt.sign(Email,Password)
+//     res.status().json({token})
+// })
 
-app.post('/Save' , (req,res) => {
+app.post('/Save', async (req,res) =>{
+    const {Firstname,Lastname,Username,Email,Password} = req.body
+    const joiData = await joi.object({
+        Firstname:joi.string().required(),
+        Lastname:joi.string().required(),
+        Username:joi.string().required(),
+        Email:joi.string().email().required(),
+        Password:joi.string().min(6).max(20).required()
+    })
+
+   try {
+    const {error,value} = joiData.validate({Firstname,Lastname,Username,Email,Password,Password})
+    if(error){
+        res.status(400).json({msg:error.details[0].message})
+    }
     
+    const token = jwt.sign(Email,Password)
+    const insertData = "Insert into Pixxel(Token_id,Firstname,Lastname,Username,Email,Password) Values(?,?,?,?,?,?)"
+    dataBase.query(insertData,[token,Firstname,Lastname,Username,Email,Password] , (err,result)=>{
+      res.json({err,result,msg:"Data Saved Successfully"})
+    })
+   } catch (error) {
+    console.log("Database Not Found");
+   }
+})
+
+app.post('/addCategory',(req,res) => {
     try {
-        const {Firstname,Lastname,Username,Email,Password} = req.body
-        const token = jwt.sign(Email,Password)
-        const insertData = "Insert into Pixxel(Token_id,Firstname,Lastname,Username,Email,Password) Values(?,?,?,?,?,?)"
-        dataBase.query(insertData,[token,Firstname,Lastname,Username,Email,Password] , (err,result)=>{
-          res.send("Data Saved Successfully")
+        const {categoryName} = req.body
+        const token = jwt.sign(categoryName,"Aman@key")
+        const insertCategory = " Insert into Category(Token_id,Name) Values(?,?)"
+
+        dataBase.query(insertCategory,[token,categoryName],(err,result) => {
+            res.send("Category Addded Successfully")
         })
     } catch (error) {
-        console.log("Database Not Found");
+        console.log(error,"Error In Category Adding");
     }
 })
 
