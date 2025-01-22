@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const Mysql = require('mysql2')
-
+const jwt = require('jsonwebtoken')
 app.use(express.json())
 
 const dataBase = Mysql.createConnection({
@@ -16,11 +16,14 @@ dataBase.connect((err)=>{
 })
 
 
+
 app.post('/Save' , (req,res) => {
+    
     try {
-        const { Firstname,Lastname,Username,Email,Password} = req.body
-        const insertData = "Insert into Pixxel(Firstname,Lastname,Username,Email,Password) Values(?,?,?,?,?)"
-        dataBase.query(insertData,[Firstname,Lastname,Username,Email,Password] , (err,result)=>{
+        const {Firstname,Lastname,Username,Email,Password} = req.body
+        const token = jwt.sign(Email,Password)
+        const insertData = "Insert into Pixxel(Token_id,Firstname,Lastname,Username,Email,Password) Values(?,?,?,?,?,?)"
+        dataBase.query(insertData,[token,Firstname,Lastname,Username,Email,Password] , (err,result)=>{
           res.send("Data Saved Successfully")
         })
     } catch (error) {
@@ -35,8 +38,31 @@ app.get('/View',(req,res) => {
     })
 })
 
-app.patch('/Update',(req,res) =>{
-    const updateData = " update"
+app.patch('/Update/:id',(req,res) =>{
+    try {
+        const {id} = req.params.id
+        const {Firstname,Lastname,Username,Email} = req.body
+        const updateData = " UPDATE Pixxel SET Firstname = ?,Lastname = ?, Username = ?, Email = ?";
+        dataBase.query(updateData,[Firstname,Lastname,Username,Email],(err,result) => {
+            res.send("Data Updated Successfully")
+        })
+    } catch (error) {
+        console.log("Error in Update Data");
+    }
+})
+
+app.delete('/Delete/:id',(req,res) => {
+    try {
+        const {id} = req.params.id
+        const deleteUser = "DELETE from Pixxel Where Id = ? ";
+
+        dataBase.query(deleteUser,[id],(err,result) =>{
+            res.send(result,"Delete User Successfully")
+        })
+    } catch (error) {
+        console.log(error,"Id Doesn't Match");
+        
+    }
 })
 
 app.listen(5000,() => {

@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     background: rgb(2,0,36);
-background: linear-gradient(148deg, rgba(2,0,36,1) 0%, rgba(219,223,168,1) 30%, rgba(128,133,215,1) 55%, rgba(0,212,255,1) 80%);
+    background: linear-gradient(148deg, rgba(2,0,36,1) 0%, rgba(219,223,168,1) 30%, rgba(128,133,215,1) 55%, rgba(0,212,255,1) 80%);
 }
 
 .navMain ul{
@@ -25,6 +25,9 @@ background: linear-gradient(148deg, rgba(2,0,36,1) 0%, rgba(219,223,168,1) 30%, 
     display: flex;
     align-items: center;
     justify-content: space-around;
-
+    color: whitesmoke;
+    font-weight: 700;
+    font-size: 17px;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 

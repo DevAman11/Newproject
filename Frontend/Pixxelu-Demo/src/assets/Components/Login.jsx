@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleData = (e) =>{
+          
+  }
   return (
     <>
         <div className="relative min-h-screen flex">
