@@ -26,7 +26,6 @@ function Userdata() {
         "Content-Type" :"application/json"
       },
      
-    
       })
 
       if(!response.ok){
