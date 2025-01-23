@@ -17,62 +17,40 @@ function Register() {
     });
   };
 
-  // const submitData = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await fetch("http://localhost:5000/Save", {
-  //       method: 'POST',
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-  //     if (!response.ok) {
-  //       const error = await response.json();
-  //       alert(`Error:${error.message}`);
-  //     } else {
-  //       const registerData = await response.json();
-  //       setformData({
-  //         Firstname: "",
-  //         Lastname: "",
-  //         Username: "",
-  //         Email: "",
-  //         Password: "",
-  //       });
-
-  //       alert("Register Successfully",registerData);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     alert("Error while Sign up");
-  //   }
-  // };
-
-  
-  const submitData = async () => {
+  const submitData = async (e) => {
+    e.preventDefault();
     try {
-        const response = await fetch('http://localhost:5000/Save', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ Firstname, Lastname, Username, Email, Password }),
+      const response = await fetch("http://localhost:9000/Save",{
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        alert(`Error: ${error.msg,'Unknown error'}`);
+      }
+      else {
+        const registerData = await response.json();
+        setformData({
+          Firstname: '',
+          Lastname: '',
+          Username: '',
+          Email: '',
+          Password: ''
         });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Error:', errorData.msg);
-            alert('Error: ' + errorData.msg);  // Handle the error properly on the frontend
-        } else {
-            const data = await response.json();
-            console.log('Success:', data.msg);
-            alert('Success: ' + data.msg);  // Show success message
-        }
+        alert("Register Successfully", + registerData);
+      }
     } catch (error) {
-        console.error('Fetch error:', error);
-        alert('Failed to connect to the server.');
+      console.log(error);
+      alert("Error while Sign up");
     }
-};
+  };
+
+
+ 
 
 
   return (
