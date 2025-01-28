@@ -22,7 +22,7 @@ function Navbar() {
            <ul className="">
          { 
             navList.map((newNav, Index)=>{
-                return <li className="flex align-middle justify-around" key={Index}><Link to={newNav.Link}> {newNav.Name}</Link></li>
+                return <li className="flex flex-col align-middle justify-center" key={Index}><Link to={newNav.Link}> {newNav.Name}</Link><div className="chill w-full h-1 bg-neutral-50 navMain"></div></li>
             })
          }
            </ul>
