@@ -29,7 +29,7 @@ function Userdata() {
       })
 
       if(!response.ok){
-        window.location.reload()
+       alert("Single Data Delete Successfully")
       }
       
     } catch (error) {
@@ -51,8 +51,8 @@ function Userdata() {
 
       <section class="">
         <div class="container">
-          <div class="flex flex-wrap -mx-12">
-            <div class="w-full px-4">
+          <div class="flex flex-wrap -mx-24">
+            <div class="w-full px-4 py-2">
               <div class="max-w-full overflow-x-auto">
                 <table class="table-auto w-full">
                   <thead>
