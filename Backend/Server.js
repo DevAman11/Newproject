@@ -4,6 +4,11 @@ const bcrypt = require('bcrypt')
 const Mysql = require('mysql2')
 const jwt = require('jsonwebtoken')
 const joi = require('joi')
+const cors = require('cors');
+
+
+
+app.use(cors());
 app.use(express.json())
 
 const dataBase = Mysql.createConnection({
@@ -24,31 +29,33 @@ dataBase.connect((err)=>{
 //     res.status().json({token})
 // })
 
-app.post('/Save', async (req,res) =>{
-    const {Firstname,Lastname,Username,Email,Password} = req.body
-    const joiData = await joi.object({
-        Firstname:joi.string().required(),
-        Lastname:joi.string().required(),
-        Username:joi.string().required(),
-        Email:joi.string().email().required(),
-        Password:joi.string().min(6).max(20).required()
-    })
 
-   try {
-    const {error,value} = joiData.validate({Firstname,Lastname,Username,Email,Password,Password})
-    if(error){
-        res.status(400).json({msg:error.details[0].message})
+app.post('/Save', async (req, res) => {
+    try {
+        const { Firstname, Lastname, Username, Email, Password } = req.body;
+
+        if (!Firstname || !Lastname || !Username || !Email || !Password) {
+            return res.status(400).json({ msg: 'All fields are required' });
+        }
+
+        const hashedPassword = await bcrypt.hash(Password, 10);
+
+        const token = jwt.sign({ Email }, process.env.JWT_SECRET || 'yourSecretKey', { expiresIn: '1h' });
+
+        const insertData = "INSERT INTO Pixxel(Token_id, Firstname, Lastname, Username, Email, Password) VALUES(?,?,?,?,?,?)";
+        dataBase.query(insertData, [token, Firstname, Lastname, Username, Email, hashedPassword], (err, result) => {
+            if (err) {
+                console.error("Error saving data:", err);
+                return res.status(500).json({ msg: "Error saving data", error: err.message });
+            }
+            res.status(200).json({ msg: "Data Saved Successfully", result });
+        });
+    } catch (error) {
+        console.error("Error in saving data:", error);
+        res.status(500).json({ msg: "Internal Server Error", error: error.message });
     }
-    
-    const token = jwt.sign(Email,Password)
-    const insertData = "Insert into Pixxel(Token_id,Firstname,Lastname,Username,Email,Password) Values(?,?,?,?,?,?)"
-    dataBase.query(insertData,[token,Firstname,Lastname,Username,Email,Password] , (err,result)=>{
-      res.json({err,result,msg:"Data Saved Successfully"})
-    })
-   } catch (error) {
-    console.log("Database Not Found");
-   }
-})
+});
+
 
 app.post('/addCategory',(req,res) => {
     try {
@@ -61,7 +68,15 @@ app.post('/addCategory',(req,res) => {
         })
     } catch (error) {
         console.log(error,"Error In Category Adding");
+        res.status(500).send("Error adding category");
     }
+})
+
+app.get('/viewCategory' , (req,res) => {
+    const catData = "Select * from Category"
+    dataBase.query(catData,(err,result) => {
+        res.send(result)
+    })
 })
 
 app.get('/View',(req,res) => {
@@ -73,10 +88,10 @@ app.get('/View',(req,res) => {
 
 app.patch('/Update/:id',(req,res) =>{
     try {
-        const {id} = req.params.id
+        const {id} = req.params
         const {Firstname,Lastname,Username,Email} = req.body
-        const updateData = " UPDATE Pixxel SET Firstname = ?,Lastname = ?, Username = ?, Email = ?";
-        dataBase.query(updateData,[Firstname,Lastname,Username,Email],(err,result) => {
+        const updateData = "UPDATE Pixxel SET Firstname = ?, Lastname = ?, Username = ?, Email = ? WHERE ID = ?"
+        dataBase.query(updateData,[Firstname,Lastname,Username,Email,id],(err,result) => {
             res.send("Data Updated Successfully")
         })
     } catch (error) {
@@ -86,8 +101,8 @@ app.patch('/Update/:id',(req,res) =>{
 
 app.delete('/Delete/:id',(req,res) => {
     try {
-        const {id} = req.params.id
-        const deleteUser = "DELETE from Pixxel Where Id = ? ";
+        const {id} = req.params
+        const deleteUser = "DELETE from Pixxel Where ID= ? ";
 
         dataBase.query(deleteUser,[id],(err,result) =>{
             res.send("Delete User Successfully")
@@ -98,6 +113,6 @@ app.delete('/Delete/:id',(req,res) => {
     }
 })
 
-app.listen(5000,() => {
-    console.log("Server Run On Port 5000");
+app.listen(9000,() => {
+    console.log("Server Run On Port 9000");
 })

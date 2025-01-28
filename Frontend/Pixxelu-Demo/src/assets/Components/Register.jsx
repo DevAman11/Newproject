@@ -2,52 +2,56 @@ import React, { useState } from "react";
 
 
 function Register() {
-
   const [formData, setformData] = useState({
-    Firstname : '',
-    Lastname :'',
-    Username : '',
-    Email : '',
-    Password : ''
-  })
+    Firstname: '',
+    Lastname: '',
+    Username: '',
+    Email: '',
+    Password: ''
+  });
 
   const handleData = (e) => {
     setformData({
       ...formData,
-      [e.target.name]:e.target.value  
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const submitData = async (e) => {
-      e.preventDefault()
-      try {
-        const response = await fetch("http://localhost:5000/Save",{
-          method : "POST",
-          headers:{
-            'Content-Type':'application/json',
-          },
-          body : JSON.stringify(formData),
-        })
-        if(!response.ok){
-          const error = await response.json()
-          alert(`Error:${error.message}`)
-        }else{
-          const registerData = await response.json()
-          setformData({
-            Firstname : '',
-            Lastname :'',
-            Username : '',
-            Email : '',
-            Password : ''
-          })
-
-          alert("Register Successfully",registerData)
-        }
-      } catch (error) {
-        console.log(error);
-      alert("Error while Sign up")
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:9000/Save",{
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        alert(`Error: ${error.msg,'Unknown error'}`);
       }
-  }
+      else {
+        const registerData = await response.json();
+        setformData({
+          Firstname: '',
+          Lastname: '',
+          Username: '',
+          Email: '',
+          Password: ''
+        });
+
+        alert("Register Successfully", + registerData);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Error while Sign up");
+    }
+  };
+
+
+ 
+
 
   return (
     <>
@@ -56,11 +60,7 @@ function Register() {
         defer
       ></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
-
-      <style>
-        @import
-        url('https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css')
-      </style>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.min.css" />
       <div class="min-w-screen min-h-screen bg-gray-900 flex items-center justify-center px-5 py-5">
         <div class="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden">
           <form onSubmit={submitData} method="post">
@@ -334,7 +334,7 @@ function Register() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div class="flex -mx-3">
                     <div class="w-full px-3 mb-5">
                       <label for="" class="text-xs font-semibold px-1">
@@ -370,15 +370,23 @@ function Register() {
                           value={formData.Password}
                           class="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                           name="Password"
-                          placeholder="************"
+                          placeholder="********"
                         />
                       </div>
                     </div>
                   </div>
                   <div class="flex -mx-3">
                     <div class="w-full px-3 mb-5">
+<<<<<<< HEAD
                       <button   type="submit" class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">
                       REGISTER NOW
+=======
+                      <button
+                        type="submit"
+                        class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+                      >
+                        REGISTER NOW
+>>>>>>> 3124f12f2cf2390935ca923449200175ed82e918
                       </button>
                     </div>
                   </div>
