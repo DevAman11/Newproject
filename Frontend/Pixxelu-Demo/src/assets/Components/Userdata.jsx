@@ -27,8 +27,8 @@ function Userdata() {
       },
      
       })
-
       if(!response.ok){
+        window.location.reload(Userdata)
        alert("Single Data Delete Successfully")
       }
       
@@ -50,7 +50,7 @@ function Userdata() {
       ></script>
 
       <section class="">
-        <div class="container">
+        <div class="container ">
           <div class="flex flex-wrap -mx-24">
             <div class="w-full px-4 py-2">
               <div class="max-w-full overflow-x-auto">

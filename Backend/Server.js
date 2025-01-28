@@ -113,6 +113,11 @@ app.delete('/Delete/:id',(req,res) => {
     }
 })
 
+app.post('/adminRegister' , async (req,res) => {
+    const {Username,Email,Password} = req.body
+    
+})
+
 app.listen(9000,() => {
     console.log("Server Run On Port 9000");
 })

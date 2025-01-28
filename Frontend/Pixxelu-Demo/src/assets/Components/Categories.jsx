@@ -10,8 +10,7 @@ function Categories() {
   const [Grocery, setGrocery] = useState()
   const [Fashion, setFashion] = useState()
 
-
-  useEffect(() => { 
+  useEffect(() => {
     
 
   }, [])
