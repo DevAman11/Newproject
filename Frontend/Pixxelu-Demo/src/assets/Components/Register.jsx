@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 
 function Register() {
@@ -6,6 +6,8 @@ const [length, setlength] = useState(8)
 const [numberAllow, setnumberAllow] = useState(false)
 const [charAllow, setcharAllow] = useState(false)
 const [password, setpassword] = useState("")
+
+const passwordRef = useRef(null)
 
 const passwordGenerator = useCallback(() => {
 let pass = ""
@@ -24,6 +26,10 @@ pass += str.charAt(Char)
 setpassword(pass)
 
 },[length,numberAllow,charAllow,setpassword])
+
+const copyPassword = useCallback(() => {
+  window.navigator.clipboard.writeText(password)
+},[password])
 
 useEffect(() => {
   passwordGenerator()
@@ -98,8 +104,10 @@ useEffect(() => {
                             readOnly
                             className="outline-none w-full py-1 px-3"
                             placeholder="password"
-                          />
-                          <button className="outline-2 bg-blue-700 text-white " >Copy Password</button>
+                            ref={passwordRef}/>
+                          <button className="outline-2 bg-blue-700 text-white"
+                          onClick={copyPassword}
+                          >Copy Password</button>
                         </div>
                           <div>
                             <input type="range" 
