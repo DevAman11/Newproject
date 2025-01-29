@@ -5,15 +5,13 @@ const Mysql = require('mysql2')
 const jwt = require('jsonwebtoken')
 const joi = require('joi')
 const cors = require('cors');
-
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-    //   const uploadFolder = 'Upload/';pat
-      cb(null, "Upload/"); // Save the file in 'uploads' folder
+      cb(null, "Upload/"); 
     },
     filename: (req, file, cb) => {
       // Save file with original name
