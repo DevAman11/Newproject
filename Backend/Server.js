@@ -71,6 +71,21 @@ app.post('/addCategory',(req,res) => {
         res.status(500).send("Error adding category");
     }
 })
+app.post('/addPostData' ,(req,res) => {
+    try {
+        const  {title,content ,selectedCategory,image} = req.body
+        const token = jwt.sign( {Category},"Aman@key")
+        const postData = 'Insert Into Posts(Token_id,Title,Content ,Category,Images) Values(?,?,?,?,?)'
+        dataBase.query(postData,[token,title,content ,selectedCategory,image],(err,result) => {
+            res.send("Post Data Added Succesfully")
+        } )
+    } catch (error) {
+        console.log("error in Creating Post");
+        res.status(500).send("Error In Post Creating")
+        
+    }
+ 
+})
 
 app.get('/viewCategory' , (req,res) => {
     const catData = "Select * from Category"
@@ -78,7 +93,6 @@ app.get('/viewCategory' , (req,res) => {
         res.send(result)
     })
 })
-
 app.get('/View',(req,res) => {
     const viewData = "Select * from Pixxel"
     dataBase.query(viewData,(err,result) => {
@@ -113,10 +127,7 @@ app.delete('/Delete/:id',(req,res) => {
     }
 })
 
-app.post('/adminRegister' , async (req,res) => {
-    const {Username,Email,Password} = req.body
-    
-})
+
 
 app.listen(9000,() => {
     console.log("Server Run On Port 9000");

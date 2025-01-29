@@ -5,7 +5,7 @@ function Navbar() {
 
     const [navList, setnavList] = useState([
         {"Name":"HOME","Link":"/"},
-        {"Name":"BLOG","Link":"/Blog"},
+        {"Name":"POSTS","Link":"/Posts"},
         {"Name":"REGISTER","Link":"/Register"},
         {"Name":"LOGIN","Link":"/Login"},
         {"Name":"USERDATA","Link":"/Userdata"},
