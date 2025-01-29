@@ -11,20 +11,17 @@ const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, "Upload/"); 
+      cb(null, "Upload/")
     },
     filename: (req, file, cb) => {
-      // Save file with original name
       cb(null,file.originalname);
     }
   });
-  
-  // Initialize multer with the storage configuration
   const upload = multer({ storage: storage });
 
-  app.use('/Upload', express.static(path.join(__dirname, 'Upload')));
 
 
+app.use('/Upload', express.static(path.join(__dirname, 'Upload')))
 app.use(cors());
 app.use(express.json())
 
@@ -50,15 +47,12 @@ dataBase.connect((err)=>{
 app.post('/Save', async (req, res) => {
     try {
         const { Firstname, Lastname, Username, Email, Password } = req.body;
-
         if (!Firstname || !Lastname || !Username || !Email || !Password) {
             return res.status(400).json({ msg: 'All fields are required' });
         }
 
         const hashedPassword = await bcrypt.hash(Password, 10);
-
         const token = jwt.sign({ Email }, process.env.JWT_SECRET || 'yourSecretKey', { expiresIn: '1h' });
-
         const insertData = "INSERT INTO Pixxel(Token_id, Firstname, Lastname, Username, Email, Password) VALUES(?,?,?,?,?,?)";
         dataBase.query(insertData, [token, Firstname, Lastname, Username, Email, hashedPassword], (err, result) => {
             if (err) {
@@ -79,7 +73,6 @@ app.post('/addCategory',(req,res) => {
         const {categoryName} = req.body
         const token = jwt.sign(categoryName,"Aman@key")
         const insertCategory = " Insert into Category(Token_id,Name) Values(?,?)"
-
         dataBase.query(insertCategory,[token,categoryName],(err,result) => {
             res.send("Category Addded Successfully")
         })
@@ -110,27 +103,19 @@ app.post('/addPostData', upload.single('Images') ,(req,res) => {
       else{
         res.send(req.file)
       }
-    
-    //   File uploaded successfully
-      res.send(`File uploaded successfully! File saved`);
+    //   res.send(`File uploaded successfully! File saved`);
 })
 
-// app.get('/viewPostData ' ,(req,res) => {
-//     const viewPostData = "Select * from Posts"
-//     dataBase.query(viewPostData,(err,result) => {
-//         res.send(result)
-//     })
-// })
 
 
 app.get('/viewPostData', (req, res) => {
-    const viewPostData = "SELECT * FROM Posts";  // SQL query to fetch all posts
+    const viewPostData = "SELECT * FROM Posts"; 
     dataBase.query(viewPostData, (err, result) => {
         if (err) {
             console.error('Error fetching posts:', err);
             return res.status(500).json({ msg: 'Error fetching posts', error: err.message });
         }
-        res.status(200).json(result);  // Send the result as a JSON response
+        res.status(200).json(result); 
     });
 });
 

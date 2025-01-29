@@ -1,7 +1,32 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 
 function Register() {
+const [length, setlength] = useState(8)
+const [numberAllow, setnumberAllow] = useState(false)
+const [charAllow, setcharAllow] = useState(false)
+const [password, setpassword] = useState("")
+
+const passwordGenerator = useCallback(() => {
+let pass = ""
+let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+
+if (numberAllow) str += "0123456789"
+if (charAllow) str += "!@#$%^&*()_+[]{}?``~"
+
+for (let i = 0; i <= length; i++) {
+ let Charactor = Math.floor(Math.random() * str.length + 1)
+
+pass = str.charAt(Charactor)
+
+}
+
+setpassword(pass)
+
+},[length,numberAllow,charAllow,setpassword])
+
+
+
   const [formData, setformData] = useState({
     Firstname: '',
     Lastname: '',
@@ -61,7 +86,52 @@ function Register() {
           <form onSubmit={submitData} method="post">
             <div class="md:flex w-full">
               <div class="hidden md:block w-1/2 bg-indigo-500 py-10 px-10">
-                <svg
+                      <div className="text-zinc-950 text-4xl text-center bg-amber-500 rounded-3xl h-96 px-4 my-8"> 
+                        <h1> My Password Generator</h1>
+                        <div className="flex shadow rounded-2xl overflow-hidden text-2xl mb-4">
+                          <input type="text"
+                          value={password}
+                            readOnly
+                            className="outline-none w-full py-1 px-3"
+                            placeholder="password"
+                          />
+                          <button className="outline-2 bg-blue-700 text-white " >Copy Password</button>
+                        </div>
+                          <div>
+                            <input type="range" 
+                            min={6} 
+                            max={100}
+                            value={length}
+                            className="cursor-pointer"
+                            onChange={(e) => {setlength(e.target.value)}}
+                            />
+                            <label>Length:{length}</label>
+                          </div>
+
+
+                        <div> 
+                          <input type="checkbox" 
+                          defaultChecked={numberAllow}
+                          onChange={() => {
+                            setnumberAllow((prev) => !prev)
+                          }}
+                           />
+                          <label>Numbers</label>
+                        </div>
+
+                        <div> 
+                          <input type="checkbox" 
+                          defaultChecked={charAllow}
+                          onChange={() => {
+                            setnumberAllow((prev) => !prev)
+                          }}
+                           />
+                          <label>Charactor</label>
+                        </div>
+                      </div>
+
+
+                {/* <svg
                   id="a87032b8-5b37-4b7e-a4d9-4dbfbe394641"
                   data-name="Layer 1"
                   xmlns="http://www.w3.org/2000/svg"
@@ -263,7 +333,7 @@ function Register() {
                     transform="translate(-227.576 -76.46149)"
                     fill="#2f2e41"
                   />
-                </svg>
+                </svg> */}
               </div>
               <div class="w-full md:w-1/2 py-10 px-5 md:px-10">
                 <div class="text-center mb-10">
