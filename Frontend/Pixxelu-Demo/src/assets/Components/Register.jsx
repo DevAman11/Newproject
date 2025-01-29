@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 
 function Register() {
@@ -15,15 +15,19 @@ if (numberAllow) str += "0123456789"
 if (charAllow) str += "!@#$%^&*()_+[]{}?``~"
 
 for (let i = 0; i <= length; i++) {
- let Charactor = Math.floor(Math.random() * str.length + 1)
+ let Char = Math.floor(Math.random() * str.length + 1)
 
-pass = str.charAt(Charactor)
+pass += str.charAt(Char)
 
 }
 
 setpassword(pass)
 
 },[length,numberAllow,charAllow,setpassword])
+
+useEffect(() => {
+  passwordGenerator()
+},[length,numberAllow,charAllow,passwordGenerator])
 
 
 
@@ -114,8 +118,7 @@ setpassword(pass)
                           defaultChecked={numberAllow}
                           onChange={() => {
                             setnumberAllow((prev) => !prev)
-                          }}
-                           />
+                          }}/>
                           <label>Numbers</label>
                         </div>
 
@@ -123,9 +126,8 @@ setpassword(pass)
                           <input type="checkbox" 
                           defaultChecked={charAllow}
                           onChange={() => {
-                            setnumberAllow((prev) => !prev)
-                          }}
-                           />
+                            setcharAllow((prev) => !prev)
+                          }}/>
                           <label>Charactor</label>
                         </div>
                       </div>
