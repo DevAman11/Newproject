@@ -1,19 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Post1Img from "../Components/PostImg/Jewellary.webp";
-
+import Upload from "../Components/PostImg/Jewellary.webp";
 import { useState , useEffect} from "react";
-
 
 function Posts() {
   const [categories, setCategories] = useState([]);
+  const [file, setFile] = useState(null)
+  const [Posts, setPosts] = useState([])
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await fetch('http://localhost:9000/viewCategory');
         const data = await response.json();
-        setCategories(data);
+        setCategories(data) ;
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -21,12 +21,30 @@ function Posts() {
 
     fetchCategories();
   }, []);
+
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const response = await fetch('http://localhost:9000/viewPostData')
+        const data = await response.json();
+        setPosts(data) ;
+        console.log(data);
+        
+      } catch (error) {
+        console.error('Error fetching Post:', error);
+      }
+    };
+
+    fetchPost();
+  }, []);
+
+
      
   const [formData, setformData] = useState({
+    Category : '',
     Title : '',
     Content : '',
-    Category : '',
-    Images: '',
   })
 
   const handleData = (e) => {
@@ -35,38 +53,47 @@ function Posts() {
       [e.target.name]:e.target.value
      })
   }
-
+  
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0])
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:9000/addPostData",{
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        const error = await response.json();
-        alert(`Error: ${error.msg,'Unknown error'}`);
-      }
-      else {
-        const postData = await response.json();
-        setformData({
-         Title : '',
-         Content : '',
-         Category : '',
-         Images: ''
-        });
-
-        alert("Post Created Successfully" , postData);
-      }
-    } catch (error) {
-      console.log(error);
-      alert("Error while Sign up");
+  
+    const formDataToSend = new FormData();
+    formDataToSend.append('Category', formData.Category);
+    formDataToSend.append('Title', formData.Title);
+    formDataToSend.append('Content', formData.Content);
+    
+    if (file) {
+      formDataToSend.append('Images', file);
     }
+  
+
+      const response = await fetch("http://localhost:9000/addPostData", {
+        method: 'POST',
+        body: formDataToSend, // Send the FormData directly
+      });
+  
+      // Check if the response is valid
+      if (!response.ok) {
+        console.log('Failed to create post');
+      }
+  
+      const postData = await response.json();
+      setformData({
+        Category: '',
+        Title: '',
+        Content: '',
+      });
+      setFile(null);
+      console.log(postData);
+      alert("Post Created Successfully");
+  
+    
   };
+  
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="text-center mb-12">
@@ -74,11 +101,12 @@ function Posts() {
         <p className="text-lg text-gray-600 mt-2">Share your thoughts with the world.</p>
       </div>
 
-      <form encType='multipart/form-data' onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto space-y-6">
+      <form enctype="multipart/form-data" method="post" onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto space-y-6">
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">Title</label>
           <input
             type="text"
+            name="Title"
             value={formData.Title}
             onChange={handleData}
             required
@@ -90,6 +118,7 @@ function Posts() {
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">Content</label>
           <textarea
+          name="Content"
            value={formData.Content}
             onChange={handleData}
             placeholder='Enter Your Content Here'
@@ -100,8 +129,9 @@ function Posts() {
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Select Category</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Category</label>
           <select
+          name="Category"
           value={formData.Category}
             onChange={handleData}
             required
@@ -118,11 +148,12 @@ function Posts() {
 
         {/* Image Upload */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Upload Image</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Images</label>
           <input
+          name="Images"
             type="file"
-            onChange={handleData}
             className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            onChange={handleFileChange}
           />
         </div>
 
@@ -138,20 +169,28 @@ function Posts() {
         <h2 className="text-2xl font-bold text-gray-800">Recent Blog Posts</h2>
       </div>
       <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-        <div className="flex flex-col items-center bg-white p-6 shadow-lg rounded-lg">
+        {Posts?.map((item)=>{
+
+          return   <div className="flex flex-col items-center bg-white p-6 shadow-lg rounded-lg">
           <Link to="/">
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">Jewellery Post 1</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">{item.Title}</h3>
           </Link>
           <h4 className="text-sm text-gray-600 mb-4 text-center">
-            Alloy Gold-plated Silver Jewel Set (Pack of 1)
+           {item.Content}
+          </h4>
+
+          <h4 className="text-sm text-gray-600 mb-4 text-center">
+           {item.Category}
           </h4>
           <img
-            src={Post1Img}
+            src={`http://localhost:9000/Upload/${item.Image}`}
             alt="Jewellery"
             className="w-full h-48 object-cover rounded-lg mb-4"
           />
         </div>
-        {/* Add other posts here similarly */}
+        })}
+      
+        
       </div>
     </div>
   );

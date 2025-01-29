@@ -6,6 +6,25 @@ const jwt = require('jsonwebtoken')
 const joi = require('joi')
 const cors = require('cors');
 
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+    //   const uploadFolder = 'Upload/';pat
+      cb(null, "Upload/"); // Save the file in 'uploads' folder
+    },
+    filename: (req, file, cb) => {
+      // Save file with original name
+      cb(null,file.originalname);
+    }
+  });
+  
+  // Initialize multer with the storage configuration
+  const upload = multer({ storage: storage });
+
+  app.use('/Upload', express.static(path.join(__dirname, 'Upload')));
 
 
 app.use(cors());
@@ -71,21 +90,51 @@ app.post('/addCategory',(req,res) => {
         res.status(500).send("Error adding category");
     }
 })
-app.post('/addPostData' ,(req,res) => {
+
+
+app.post('/addPostData', upload.single('Images') ,(req,res) => {
     try {
-        const  {title,content ,selectedCategory,image} = req.body
-        const token = jwt.sign( {Category},"Aman@key")
-        const postData = 'Insert Into Posts(Token_id,Title,Content ,Category,Images) Values(?,?,?,?,?)'
-        dataBase.query(postData,[token,title,content ,selectedCategory,image],(err,result) => {
-            res.send("Post Data Added Succesfully")
+        const  {Category,Title,Content,Images} = req.body
+        const token = jwt.sign({Category},"Aman@key")
+        const postData = 'Insert Into posts(Token_id,Category,Title,Content,Image) Values(?,?,?,?,?)'
+        dataBase.query(postData,[token,Category,Title,Content,req.file.originalname],(err,result) => {
+            res.send({"message":"Post Data Added Succesfully"})
         } )
+
     } catch (error) {
         console.log("error in Creating Post");
         res.status(500).send("Error In Post Creating")
-        
     }
- 
+    if (req.file) {
+        req.body.filePath = req.file.path
+        res.send({"msg":'file uploaded Successfully'});
+      }
+      else{
+        res.send(req.file)
+      }
+    
+    //   File uploaded successfully
+      res.send(`File uploaded successfully! File saved`);
 })
+
+// app.get('/viewPostData ' ,(req,res) => {
+//     const viewPostData = "Select * from Posts"
+//     dataBase.query(viewPostData,(err,result) => {
+//         res.send(result)
+//     })
+// })
+
+
+app.get('/viewPostData', (req, res) => {
+    const viewPostData = "SELECT * FROM Posts";  // SQL query to fetch all posts
+    dataBase.query(viewPostData, (err, result) => {
+        if (err) {
+            console.error('Error fetching posts:', err);
+            return res.status(500).json({ msg: 'Error fetching posts', error: err.message });
+        }
+        res.status(200).json(result);  // Send the result as a JSON response
+    });
+});
 
 app.get('/viewCategory' , (req,res) => {
     const catData = "Select * from Category"
@@ -126,8 +175,6 @@ app.delete('/Delete/:id',(req,res) => {
         
     }
 })
-
-
 
 app.listen(9000,() => {
     console.log("Server Run On Port 9000");
