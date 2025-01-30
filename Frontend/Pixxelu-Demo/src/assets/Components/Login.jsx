@@ -1,14 +1,50 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [Email, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
+  const [Message, setMessage] = useState('');
+  const [Store, setStore] = useState('')
 
-  const handleData = (e) =>{
-          
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const LogedData = {
+     Email:Email,
+     Password:Password
+  };
+
+    // try {
+      const response = await fetch("http://localhost:9000/Login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(LogedData), 
+      });
+
+      const result = await response.json();
+      console.log(result)
+      // if (response.ok) {
+      //   setMessage("Login Successful");
+      //   setStore(result);
+      //   console.log(result); 
+      //   // navigate(`/Logindata/${result.Userdata.Id}`);
+      // } else {
+
+         
+
+
+      //   setMessage(result.Message);
+      // }
+    // } catch (error) {
+    //   setMessage("Something Went Wrong, Please Try Again Later");
+    // }
+  };
+
+  const navigate = useNavigate();
   return (
     <>
         <div className="relative min-h-screen flex">
@@ -43,13 +79,10 @@ function Login() {
           />
           <div className="w-full max-w-md z-10">
             <div className="sm:text-4xl xl:text-5xl font-bold leading-tight mb-6">
-              Reference site about Lorem Ipsum..
+             Welcome Back To Our Login Page
             </div>
             <div className="sm:text-sm xl:text-md text-gray-200 font-normal">
-              What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing
-              and typesetting industry Lorem Ipsum has been the industry's standard
-              dummy text ever since the 1500s when an unknown printer took a galley
-              of type and scrambled it to make a type specimen book it has?
+               Thank You So Much For Visit Here
             </div>
           </div>
           <ul className="circles">
@@ -68,7 +101,7 @@ function Login() {
         <div className="md:flex md:items-center md:justify-center w-full sm:w-auto md:h-full  xl:w-2/5 p-8 md:p-10 lg:p-14 sm:rounded-lg md:rounded-none bg-white ">
           <div className="max-w-md w-full space-y-8">
             <div className="text-center">
-              <h2 className="mt-6 text-3xl font-bold text-gray-900">Welcom Back!</h2>
+              <h2 className="mt-6 text-3xl font-bold text-gray-900">Welcome Back!</h2>
               <p className="mt-2 text-sm text-gray-500">Please sign in to your account</p>
             </div>
             <div className="flex flex-row justify-center items-center space-x-3">
@@ -93,14 +126,14 @@ function Login() {
                 />
               </Link>
             </div>
-            <form action="#" method="POST" className="mt-8 space-y-6">
+            <form onSubmit={handleSubmit} method="POST" className="mt-8 space-y-6">
               <div>
                 <label htmlFor="email" className="sr-only">Email address</label>
                 <input
                   type="email"
-                  name="email"
-                  id="email"
-                  value={email}
+                  name="Email"
+                  id="Email"
+                  value={Email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="relative block w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Email address"
@@ -110,9 +143,9 @@ function Login() {
                 <label htmlFor="password" className="sr-only">Password</label>
                 <input
                   type="password"
-                  name="password"
-                  id="password"
-                  value={password}
+                  name="Password"
+                  id="Password"
+                  value={Password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="relative block w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Password"
@@ -127,6 +160,16 @@ function Login() {
                 </button>
               </div>
             </form>
+
+            {Message && <p>{Message}</p>}
+          {Store && (
+            <>
+              <p>{Store.msg}</p>
+              {/* <p>{Store.Token}</p> */}
+            </>
+          )}
+
+
           </div>
         </div>
       </div>
