@@ -51,16 +51,16 @@ function Admin() {
               
                 <div  key={index}  class="flex justify-between border-t text-sm font-normal mt-4 space-x-4">
                   <div class="px-2 flex">
-                    <span>{Item.ID}</span>
+                    <span>{Item.Token_id}</span>
                   </div>
                   <div>
+                    <span>{Item.ID}</span>
+                  </div>
+                  <div class="px-2">
                     <span>{Item.Email}</span>
                   </div>
                   <div class="px-2">
                     <span>{Item.Password}</span>
-                  </div>
-                  <div class="px-2">
-                    <span>{}</span>
                   </div>
                   <div class="px-2">
                     <select>

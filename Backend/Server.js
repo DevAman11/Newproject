@@ -182,7 +182,6 @@ app.post("/Login", async (req, res) => {
         const { Email, Password } = req.body;
         if (!Email || !Password) return res.status(400).json({ msg: "Email and Password are required" });
         const [user] = await new Promise((resolve, reject) => {
-            // const saveInfo = "Insert into AdminData( Email, Password) Values (?,?)"
             dataBase.query("SELECT * FROM Pixxel WHERE Email = ?", [Email], (err, result) => {
                 if (err) return reject(err);
                 resolve(result);
@@ -194,6 +193,12 @@ app.post("/Login", async (req, res) => {
         if (isMatch) return res.status(400).json({ msg: "Invalid credentials" });
 
         const token = jwt.sign({ userId: user.ID }, process.env.JWT_SECRET || 'Aman@key', { expiresIn: '1h' });
+            const saveInfo = "Insert into AdminData(Token_id,ID, Email, Password) Values (?,?,?,?)"
+            dataBase.query(saveInfo,[token,user.ID, user.Email,user.Password],(error,result)=>{
+            res.send(result)
+            console.log("Login Data Save To AdminData");
+            
+            })
         res.json({ msg: "Login successful", token });
     } catch (error) {
         console.error(error);
