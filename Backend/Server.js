@@ -3,7 +3,6 @@ const app = express()
 const bcrypt = require('bcrypt')
 const Mysql = require('mysql2')
 const jwt = require('jsonwebtoken')
-const joi = require('joi')
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
@@ -111,22 +110,21 @@ app.post('/addPostData', upload.single('Images'), (req, res) => {
         const token = jwt.sign({ Category }, "Aman@key");
         const postData = 'INSERT INTO posts(Token_id, Category, Title, Content, Image) VALUES(?,?,?,?,?)';
         
-        // Only send the response after query completion, to avoid multiple responses.
         dataBase.query(postData, [token, Category, Title, Content, req.file.originalname], (err, result) => {
             if (err) {
                 console.error("Error creating post:", err);
-                if (!res.headersSent) {  // Make sure headers haven't been sent yet.
+                if (!res.headersSent) {  
                     return res.status(500).send("Error In Post Creating");
                 }
             } else {
-                if (!res.headersSent) {  // Make sure headers haven't been sent yet.
+                if (!res.headersSent) {  
                     res.send({ "message": "Post Data Added Successfully" });
                 }
             }
         });
     } catch (error) {
         console.log("Error in Creating Post", error);
-        if (!res.headersSent) {  // Make sure headers haven't been sent yet.
+        if (!res.headersSent) { 
             res.status(500).send("Error In Post Creating");
         }
     }
@@ -177,6 +175,32 @@ app.get('/viewCategory', (req, res) => {
         res.status(500).send("Error fetching categories");
     }
 });
+
+
+app.post("/Login", async (req, res) => {
+    try {
+        const { Email, Password } = req.body;
+        if (!Email || !Password) return res.status(400).json({ msg: "Email and Password are required" });
+        const [user] = await new Promise((resolve, reject) => {
+            dataBase.query("SELECT * FROM Pixxel WHERE Email = ?", [Email], (err, result) => {
+                if (err) return reject(err);
+                resolve(result);
+            });
+        });
+
+        if (!user) return res.status(404).json({ msg: "User not found" });
+
+        const isMatch = await bcrypt.compare(Password, user.Password);
+        if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+
+        const token = jwt.sign({ userId: user.ID }, process.env.JWT_SECRET || 'Aman@key', { expiresIn: '1h' });
+        res.json({ msg: "Login successful", token });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Server error" });
+    }
+});
+
 
 app.get('/View', (req, res) => {
     try {
