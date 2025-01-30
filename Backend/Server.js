@@ -28,7 +28,7 @@ app.use(express.json())
 const dataBase = Mysql.createConnection({
     host : "localhost",
     user : "root",
-    password : "",
+    password : "abizhere09",
     database : "pixxelu_data"
 })
 
@@ -109,7 +109,7 @@ app.post('/addPostData', upload.single('Images') ,(req,res) => {
 
 
 app.get('/viewPostData', (req, res) => {
-    const viewPostData = "SELECT * FROM Posts"; 
+    const viewPostData = "SELECT * FROM posts"; 
     dataBase.query(viewPostData, (err, result) => {
         if (err) {
             console.error('Error fetching posts:', err);
