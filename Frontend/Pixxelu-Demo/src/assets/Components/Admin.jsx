@@ -31,6 +31,9 @@ function Admin() {
           <div>
             <div>
               <div class="flex justify-between bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-md py-2 px-4 text-white font-bold text-md">
+              <div>
+                  <span>Token_id</span>
+                </div>
                 <div>
                   <span>ID</span>
                 </div>
