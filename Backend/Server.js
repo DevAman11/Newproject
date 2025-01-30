@@ -129,14 +129,14 @@ app.post('/addPostData', upload.single('Images'), (req, res) => {
         }
     }
 
-    // If file was uploaded, send response separately.
+   
     if (req.file) {
-        if (!res.headersSent) {  // Make sure headers haven't been sent yet.
+        if (!res.headersSent) {  
             req.body.filePath = req.file.path;
             return res.send({ "msg": 'File uploaded Successfully' });
         }
     } else {
-        if (!res.headersSent) {  // Make sure headers haven't been sent yet.
+        if (!res.headersSent) { 
             res.send(req.file);
         }
     }
@@ -187,11 +187,10 @@ app.post("/Login", async (req, res) => {
                 resolve(result);
             });
         });
-
         if (!user) return res.status(404).json({ msg: "User not found" });
 
         const isMatch = await bcrypt.compare(Password, user.Password);
-        if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+        if (isMatch) return res.status(400).json({ msg: "Invalid credentials" });
 
         const token = jwt.sign({ userId: user.ID }, process.env.JWT_SECRET || 'Aman@key', { expiresIn: '1h' });
         res.json({ msg: "Login successful", token });
