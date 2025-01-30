@@ -12,8 +12,6 @@ function Navbar() {
         {"Name":"ADMIN","Link":"/Admin"},
     ])
 
-
-
     return (
         <>
         <div className="navContain ">
