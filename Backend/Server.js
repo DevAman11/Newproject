@@ -27,7 +27,7 @@ app.use(express.json())
 const dataBase = Mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "",
+    password: "abizhere09",
     database: "pixxelu_data"
 })
 
