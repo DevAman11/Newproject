@@ -7,6 +7,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { error } = require('console')
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -46,7 +47,7 @@ app.post('/Save', async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(Password, 10);
-        const token = jwt.sign({ Email }, process.env.JWT_SECRET || 'yourSecretKey', { expiresIn: '1h' });
+        const token = jwt.sign({ Email }, process.env.JWT_SECRET || 'Aman@key', { expiresIn: '1h' });
         const insertData = "INSERT INTO Pixxel(Token_id, Firstname, Lastname, Username, Email, Password) VALUES(?,?,?,?,?,?)";
         dataBase.query(insertData, [token, Firstname, Lastname, Username, Email, hashedPassword], (err, result) => {
             if (err) {
@@ -182,6 +183,7 @@ app.post("/Login", async (req, res) => {
         const { Email, Password } = req.body;
         if (!Email || !Password) return res.status(400).json({ msg: "Email and Password are required" });
         const [user] = await new Promise((resolve, reject) => {
+            const saveInfo = "Insert into AdminData( Email, Password) Values (?,?)"
             dataBase.query("SELECT * FROM Pixxel WHERE Email = ?", [Email], (err, result) => {
                 if (err) return reject(err);
                 resolve(result);
@@ -199,6 +201,23 @@ app.post("/Login", async (req, res) => {
         res.status(500).json({ msg: "Server error" });
     }
 });
+
+app.get('/viewLogin',(req,res) => {
+    try {
+        const loginData = 'Select * from AdminData'
+        dataBase.query(loginData,(error,result)=>{
+            if (error) {
+                console.error("Error fetching admin:", error);
+                return res.status(500).send("Error fetching admin");
+            }
+            res.send(result);
+        })
+        
+    } catch (error) {
+        console.log(error, "Error In Fetching Admin");
+        res.status(500).send("Error fetching Admin");
+    }
+})
 
 
 app.get('/View', (req, res) => {

@@ -1,6 +1,21 @@
-import React ,{useState} from "react";
+import React ,{useState ,useEffect} from "react";
 import { Link } from "react-router-dom";
 function Admin() {
+
+  const [adminData, setadminData] = useState([])
+
+  const logindata = async () => {
+      await fetch("http://localhost:9000/viewLogin")
+        .then((res) => res.json())
+        .then((json) => {
+          setadminData(json);
+          console.log(json);
+        })
+        .catch((err) => console.log(err));
+    };
+    useEffect(() => {
+      logindata();
+    }, []);
 
   return (
     <>
@@ -30,18 +45,22 @@ function Admin() {
                 </div>
               </div>
               <div>
-                <div class="flex justify-between border-t text-sm font-normal mt-4 space-x-4">
+
+               { adminData.map((Item,index)=> {
+                return (
+              
+                <div  key={index}  class="flex justify-between border-t text-sm font-normal mt-4 space-x-4">
                   <div class="px-2 flex">
-                    <span>John Deo</span>
+                    <span>{Item.ID}</span>
                   </div>
                   <div>
-                    <span>johndeo@gmail.com</span>
+                    <span>{Item.Email}</span>
                   </div>
                   <div class="px-2">
-                    <span>Admin</span>
+                    <span>{Item.Password}</span>
                   </div>
                   <div class="px-2">
-                    <span>28/12/2021</span>
+                    <span>{}</span>
                   </div>
                   <div class="px-2">
                     <select>
@@ -50,7 +69,8 @@ function Admin() {
                     </select>
                   </div>
                 </div>
-
+              )
+            })}
               </div>
             </div>
           </div>
