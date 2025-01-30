@@ -130,7 +130,6 @@ app.post('/addPostData', upload.single('Images'), (req, res) => {
         }
     }
 
-   
     if (req.file) {
         if (!res.headersSent) {  
             req.body.filePath = req.file.path;
@@ -183,7 +182,7 @@ app.post("/Login", async (req, res) => {
         const { Email, Password } = req.body;
         if (!Email || !Password) return res.status(400).json({ msg: "Email and Password are required" });
         const [user] = await new Promise((resolve, reject) => {
-            const saveInfo = "Insert into AdminData( Email, Password) Values (?,?)"
+            // const saveInfo = "Insert into AdminData( Email, Password) Values (?,?)"
             dataBase.query("SELECT * FROM Pixxel WHERE Email = ?", [Email], (err, result) => {
                 if (err) return reject(err);
                 resolve(result);
