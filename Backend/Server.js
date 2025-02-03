@@ -97,6 +97,7 @@ app.post('/addCategory', (req, res) => {
 //         res.status(500).send("Error In Post Creating");
 //     }
 
+<<<<<<< Updated upstream
 //     if (req.file) {
 //         req.body.filePath = req.file.path;
 //         res.send({ "msg": 'file uploaded Successfully' });
@@ -104,6 +105,14 @@ app.post('/addCategory', (req, res) => {
 //         res.send(req.file);
 //     }
 // });
+=======
+app.get('/View',(req,res) => {
+    const viewData = "Select * from Pixxel"
+    dataBase.query(viewData,(err,result) => {
+        res.send(result) 
+    })
+})
+>>>>>>> Stashed changes
 
 app.post('/addPostData', upload.single('Images'), (req, res) => {
     try {
@@ -182,7 +191,6 @@ app.post("/Login", async (req, res) => {
         const { Email, Password } = req.body;
         if (!Email || !Password) return res.status(400).json({ msg: "Email and Password are required" });
         const [user] = await new Promise((resolve, reject) => {
-            // const saveInfo = "Insert into AdminData( Email, Password) Values (?,?)"
             dataBase.query("SELECT * FROM Pixxel WHERE Email = ?", [Email], (err, result) => {
                 if (err) return reject(err);
                 resolve(result);
@@ -194,6 +202,12 @@ app.post("/Login", async (req, res) => {
         if (isMatch) return res.status(400).json({ msg: "Invalid credentials" });
 
         const token = jwt.sign({ userId: user.ID }, process.env.JWT_SECRET || 'Aman@key', { expiresIn: '1h' });
+            const saveInfo = "Insert into AdminData(Token_id,ID, Email, Password) Values (?,?,?,?)"
+            dataBase.query(saveInfo,[token,user.ID, user.Email,user.Password],(error,result)=>{
+            res.send(result)
+            console.log("Login Data Save To AdminData");
+            
+            })
         res.json({ msg: "Login successful", token });
     } catch (error) {
         console.error(error);

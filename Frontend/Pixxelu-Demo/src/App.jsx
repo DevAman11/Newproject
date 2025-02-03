@@ -9,15 +9,17 @@ import Register from './assets/Components/Register'
 import Login from './assets/Components/Login'
 import Userdata from './assets/Components/Userdata'
 import Update from './assets/Components/Update'
-import AdminNav from './assets/Components/AdminNav'
 import Categories from './assets/Components/Categories'
+import Dashboard from './assets/Components/Dashboard'
+import Users from './assets/Components/Users'
+import LogUser from './assets/Components/LogUser'
 
 function App() {
 //  const location=useLocation()
   return (
    <>
     <BrowserRouter>
-    {<Navbar/>}
+    <Navbar/>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/Categories' element={<Categories/>}/>
@@ -27,9 +29,14 @@ function App() {
         <Route path='/Userdata' element={<Userdata/>}/>
         <Route path='/Admin' element={<Admin/>}/>
         <Route path='/Update' element={<Update/>}/>
-        <Route path='/AdminNav' element={<AdminNav/>}/>
+        {/* <Route path='/AdminNav' element={<AdminNav/>}/> */}
+        <Route path='/Dashboard' element={<Dashboard/>}/>
+        <Route path='/Users' element={<Users/>}/>
+        <Route path='/LogUser' element={<LogUser/>}/>
+
       </Routes>
     </BrowserRouter>
+
 
    </>
   )

@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from 'react'
 import { Link } from "react-router-dom";
 
-function AdminNav() {
+function Dashboard() {
   const [List, setList] = useState([
     { Name: "DASHBOARD", Link: "/Dashboard" },
-    { Name: "Post", Link: "/Posts" },
-    { Name: "CATEGORIES", Link: "/Categories" }
+    { Name: "ALLUSERS", Link: "/Users" },
+    { Name: "CATEGORIES", Link: "/Categories"},
+    { Name: "LOGINDATA", Link: "/LogUser"}
   ]);
 
+
+    
   return (
     <>
-      <header>
+       <header>
         <div>
           <ul className="flex align-middle justify-evenly">
             {List.map((Items, index) => {
@@ -23,8 +26,13 @@ function AdminNav() {
           </ul>
         </div>
       </header>
+
+
+    <h1> Admin Dashboard</h1>
+
+
     </>
-  );
+  )
 }
 
-export default AdminNav;
+export default Dashboard

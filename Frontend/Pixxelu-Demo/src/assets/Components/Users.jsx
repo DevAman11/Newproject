@@ -1,15 +1,15 @@
 import React,{useState,useEffect} from "react";
 import { Link } from "react-router-dom";
 
-function Userdata() {
+function Users() {
   const [data, setData] = useState([]);
 
   const alldata = async () => {
     await fetch("http://localhost:9000/View")
       .then((res) => res.json())
       .then((json) => {
-        setData(json)
-        console.log(json)
+        setData(json);
+        console.log(json);
       })
       .catch((err) => console.log(err));
   };
@@ -49,25 +49,16 @@ function Userdata() {
         src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
       ></script>
 
-<<<<<<< Updated upstream
       <section class="">
         <div class="container ">
           <div class="flex flex-wrap -mx-24">
             <div class="w-full px-4 py-2">
               <div class="max-w-full overflow-x-auto">
                 <table class="table-auto w-full">
-=======
-      <section className="">
-        <div className="container">
-          <div className="flex flex-wrap -mx-12">
-            <div className="w-full px-4">
-              <div className="max-w-full overflow-x-auto">
-                <table className="table-auto w-full">
->>>>>>> Stashed changes
                   <thead>
-                    <tr className="bg-primary text-center">
+                    <tr class="bg-primary text-center">
                       <th
-                        className="
+                        class="
                            w-1/6
                            min-w-[160px]
                            text-lg
@@ -83,7 +74,7 @@ function Userdata() {
                         ID
                       </th>
                       <th
-                        className="
+                        class="
                            w-1/6
                            min-w-[160px]
                            text-lg
@@ -98,7 +89,7 @@ function Userdata() {
                        Firstname
                       </th>
                       <th
-                        className="
+                        class="
                            w-1/6
                            min-w-[160px]
                            text-lg
@@ -113,7 +104,7 @@ function Userdata() {
                  Lastname
                       </th>
                       <th
-                        className="
+                        class="
                            w-1/6
                            min-w-[160px]
                            text-lg
@@ -128,7 +119,7 @@ function Userdata() {
                         Username
                       </th>
                       <th
-                        className="
+                        class="
                            w-1/6
                            min-w-[160px]
                            text-lg
@@ -143,7 +134,7 @@ function Userdata() {
                         Email
                       </th>
                       <th
-                        className="
+                        class="
                            w-1/6
                            min-w-[160px]
                            text-lg
@@ -158,11 +149,8 @@ function Userdata() {
                       >
                         Password
                       </th>
-<<<<<<< Updated upstream
-                      
-=======
                       <th
-                        className="
+                        class="
                            w-1/6
                            min-w-[160px]
                            text-lg
@@ -177,7 +165,6 @@ function Userdata() {
                       >
                         Action
                       </th>
->>>>>>> Stashed changes
                     </tr>
                   </thead>
                   <tbody>
@@ -187,7 +174,7 @@ function Userdata() {
                     return(
                     <tr key={index}>
                       <td
-                        className="
+                        class="
                            text-center text-dark
                            font-medium
                            text-base
@@ -200,7 +187,7 @@ function Userdata() {
                         {index+1}
                       </td>
                       <td
-                        className="
+                        class="
                            text-center text-dark
                            font-medium
                            text-base
@@ -213,7 +200,7 @@ function Userdata() {
                         {item.Firstname}
                       </td>
                       <td
-                        className="
+                        class="
                            text-center text-dark
                            font-medium
                            text-base
@@ -227,7 +214,7 @@ function Userdata() {
 
                       </td>
                       <td
-                        className="
+                        class="
                            text-center text-dark
                            font-medium
                            text-base
@@ -240,7 +227,7 @@ function Userdata() {
                      {item.Username}
                       </td>
                       <td
-                        className="
+                        class="
                            text-center text-dark
                            font-medium
                            text-base
@@ -253,7 +240,7 @@ function Userdata() {
                         {item.Email}
                       </td>
                       <td
-                        className="
+                        class="
                            text-center text-dark
                            font-medium
                            text-base
@@ -265,11 +252,8 @@ function Userdata() {
                       >
                         {item.Password}
                       </td>
-<<<<<<< Updated upstream
-                     
-=======
                       <td
-                        className="
+                        class="
                            text-center text-dark
                            font-medium
                            text-base
@@ -280,7 +264,7 @@ function Userdata() {
                      <button>
                         <Link
                           to={`/Update/${item.ID}`}
-                          className="
+                          class="
                               border border-green-6000
                               py-2
                               px-8
@@ -293,11 +277,10 @@ function Userdata() {
 
                         <button 
                         onClick={()=>deleteUser(item.ID)}
-                         className=" border border-red-600 py-2 px-6 text-primary inline-block rounded hover:bg-red-600 hover:text-white "> Delete
+                         class=" border border-red-600 py-2 px-6 text-primary inline-block rounded hover:bg-red-600 hover:text-white "> Delete
                         </button>
 
                       </td>
->>>>>>> Stashed changes
                     </tr>
                     )
                   })}
@@ -314,4 +297,4 @@ function Userdata() {
   );
 }
 
-export default Userdata;
+export default Users;

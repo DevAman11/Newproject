@@ -95,7 +95,7 @@ useEffect(() => {
           <form onSubmit={submitData} method="post">
             <div class="md:flex w-full">
               <div class="hidden md:block w-1/2 bg-indigo-500 py-10 px-10">
-                      {/* <div className="text-zinc-950 text-4xl text-center bg-amber-500 rounded-3xl h-96 px-4 my-8"> 
+                      <div className="text-zinc-950 text-4xl text-center bg-amber-500 rounded-3xl h-96 px-4 my-8"> 
                         <h1> My Password Generator</h1>
                         <div className="flex shadow rounded-2xl overflow-hidden text-2xl mb-4">
                           <input type="text"
@@ -137,7 +137,7 @@ useEffect(() => {
                           }}/>
                           <label>Charactor</label>
                         </div>
-                      </div> */}
+                      </div> 
 
                 {/* <svg
                   id="a87032b8-5b37-4b7e-a4d9-4dbfbe394641"
@@ -451,8 +451,12 @@ useEffect(() => {
                   <div class="flex -mx-3">
                     <div class="w-full px-3 mb-5">
                       <button   type="submit" class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">
+<<<<<<< Updated upstream
                       REGISTER NOW
                       </button>
+=======
+                      REGISTER NOW </button>
+>>>>>>> Stashed changes
                     </div>
                   </div>
                 </div>
