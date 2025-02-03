@@ -8,8 +8,8 @@ function Userdata() {
     await fetch("http://localhost:9000/View")
       .then((res) => res.json())
       .then((json) => {
-        setData(json);
-        console.log(json);
+        setData(json)
+        console.log(json)
       })
       .catch((err) => console.log(err));
   };
@@ -49,16 +49,25 @@ function Userdata() {
         src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
       ></script>
 
+<<<<<<< Updated upstream
       <section class="">
         <div class="container ">
           <div class="flex flex-wrap -mx-24">
             <div class="w-full px-4 py-2">
               <div class="max-w-full overflow-x-auto">
                 <table class="table-auto w-full">
+=======
+      <section className="">
+        <div className="container">
+          <div className="flex flex-wrap -mx-12">
+            <div className="w-full px-4">
+              <div className="max-w-full overflow-x-auto">
+                <table className="table-auto w-full">
+>>>>>>> Stashed changes
                   <thead>
-                    <tr class="bg-primary text-center">
+                    <tr className="bg-primary text-center">
                       <th
-                        class="
+                        className="
                            w-1/6
                            min-w-[160px]
                            text-lg
@@ -74,7 +83,7 @@ function Userdata() {
                         ID
                       </th>
                       <th
-                        class="
+                        className="
                            w-1/6
                            min-w-[160px]
                            text-lg
@@ -89,7 +98,7 @@ function Userdata() {
                        Firstname
                       </th>
                       <th
-                        class="
+                        className="
                            w-1/6
                            min-w-[160px]
                            text-lg
@@ -104,7 +113,7 @@ function Userdata() {
                  Lastname
                       </th>
                       <th
-                        class="
+                        className="
                            w-1/6
                            min-w-[160px]
                            text-lg
@@ -119,7 +128,7 @@ function Userdata() {
                         Username
                       </th>
                       <th
-                        class="
+                        className="
                            w-1/6
                            min-w-[160px]
                            text-lg
@@ -134,7 +143,7 @@ function Userdata() {
                         Email
                       </th>
                       <th
-                        class="
+                        className="
                            w-1/6
                            min-w-[160px]
                            text-lg
@@ -149,7 +158,26 @@ function Userdata() {
                       >
                         Password
                       </th>
+<<<<<<< Updated upstream
                       
+=======
+                      <th
+                        className="
+                           w-1/6
+                           min-w-[160px]
+                           text-lg
+                           font-semibold
+                           text-white
+                           py-4
+                           lg:py-7
+                           px-3
+                           lg:px-4
+                           border-r border-transparent
+                           "
+                      >
+                        Action
+                      </th>
+>>>>>>> Stashed changes
                     </tr>
                   </thead>
                   <tbody>
@@ -159,7 +187,7 @@ function Userdata() {
                     return(
                     <tr key={index}>
                       <td
-                        class="
+                        className="
                            text-center text-dark
                            font-medium
                            text-base
@@ -172,7 +200,7 @@ function Userdata() {
                         {index+1}
                       </td>
                       <td
-                        class="
+                        className="
                            text-center text-dark
                            font-medium
                            text-base
@@ -185,7 +213,7 @@ function Userdata() {
                         {item.Firstname}
                       </td>
                       <td
-                        class="
+                        className="
                            text-center text-dark
                            font-medium
                            text-base
@@ -199,7 +227,7 @@ function Userdata() {
 
                       </td>
                       <td
-                        class="
+                        className="
                            text-center text-dark
                            font-medium
                            text-base
@@ -212,7 +240,7 @@ function Userdata() {
                      {item.Username}
                       </td>
                       <td
-                        class="
+                        className="
                            text-center text-dark
                            font-medium
                            text-base
@@ -225,7 +253,7 @@ function Userdata() {
                         {item.Email}
                       </td>
                       <td
-                        class="
+                        className="
                            text-center text-dark
                            font-medium
                            text-base
@@ -237,7 +265,39 @@ function Userdata() {
                       >
                         {item.Password}
                       </td>
+<<<<<<< Updated upstream
                      
+=======
+                      <td
+                        className="
+                           text-center text-dark
+                           font-medium
+                           text-base
+                           py-5
+                           px-2
+                           bg-white
+                           border-b border-r border-[#E8E8E8]" >
+                     <button>
+                        <Link
+                          to={`/Update/${item.ID}`}
+                          className="
+                              border border-green-6000
+                              py-2
+                              px-8
+                              text-primary
+                              inline-block
+                              rounded
+                              hover:bg-green-600 hover:text-white
+                              " >  Edit </Link> </button>
+
+
+                        <button 
+                        onClick={()=>deleteUser(item.ID)}
+                         className=" border border-red-600 py-2 px-6 text-primary inline-block rounded hover:bg-red-600 hover:text-white "> Delete
+                        </button>
+
+                      </td>
+>>>>>>> Stashed changes
                     </tr>
                     )
                   })}

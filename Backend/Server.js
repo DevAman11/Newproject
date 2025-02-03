@@ -97,6 +97,7 @@ app.post('/addCategory', (req, res) => {
 //         res.status(500).send("Error In Post Creating");
 //     }
 
+<<<<<<< Updated upstream
 //     if (req.file) {
 //         req.body.filePath = req.file.path;
 //         res.send({ "msg": 'file uploaded Successfully' });
@@ -104,6 +105,14 @@ app.post('/addCategory', (req, res) => {
 //         res.send(req.file);
 //     }
 // });
+=======
+app.get('/View',(req,res) => {
+    const viewData = "Select * from Pixxel"
+    dataBase.query(viewData,(err,result) => {
+        res.send(result) 
+    })
+})
+>>>>>>> Stashed changes
 
 app.post('/addPostData', upload.single('Images'), (req, res) => {
     try {
