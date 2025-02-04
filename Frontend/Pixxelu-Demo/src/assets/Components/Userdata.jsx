@@ -49,21 +49,12 @@ function Userdata() {
         src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
       ></script>
 
-<<<<<<< Updated upstream
-      <section class="">
-        <div class="container ">
-          <div class="flex flex-wrap -mx-24">
-            <div class="w-full px-4 py-2">
-              <div class="max-w-full overflow-x-auto">
-                <table class="table-auto w-full">
-=======
       <section className="">
         <div className="container">
           <div className="flex flex-wrap -mx-12">
             <div className="w-full px-4">
               <div className="max-w-full overflow-x-auto">
                 <table className="table-auto w-full">
->>>>>>> Stashed changes
                   <thead>
                     <tr className="bg-primary text-center">
                       <th
@@ -158,9 +149,6 @@ function Userdata() {
                       >
                         Password
                       </th>
-<<<<<<< Updated upstream
-                      
-=======
                       <th
                         className="
                            w-1/6
@@ -177,7 +165,6 @@ function Userdata() {
                       >
                         Action
                       </th>
->>>>>>> Stashed changes
                     </tr>
                   </thead>
                   <tbody>
@@ -265,39 +252,7 @@ function Userdata() {
                       >
                         {item.Password}
                       </td>
-<<<<<<< Updated upstream
                      
-=======
-                      <td
-                        className="
-                           text-center text-dark
-                           font-medium
-                           text-base
-                           py-5
-                           px-2
-                           bg-white
-                           border-b border-r border-[#E8E8E8]" >
-                     <button>
-                        <Link
-                          to={`/Update/${item.ID}`}
-                          className="
-                              border border-green-6000
-                              py-2
-                              px-8
-                              text-primary
-                              inline-block
-                              rounded
-                              hover:bg-green-600 hover:text-white
-                              " >  Edit </Link> </button>
-
-
-                        <button 
-                        onClick={()=>deleteUser(item.ID)}
-                         className=" border border-red-600 py-2 px-6 text-primary inline-block rounded hover:bg-red-600 hover:text-white "> Delete
-                        </button>
-
-                      </td>
->>>>>>> Stashed changes
                     </tr>
                     )
                   })}
